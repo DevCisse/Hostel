@@ -1,26 +1,78 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using Hostel.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@*<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
+                <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+    </ul>*@
 
-<ul class="navbar-nav">
+
+
+
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
+
+    <div class="nav-container">
+        <ul id="main-menu-navigation" data-menu="menu-navigation" data-scroll-to-active="true" class="navigation navigation-main">
+            <li class="has-sub nav-item">
+                <a href="#">
+                    <i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span>
+
+                    <ul class="menu-content">
+                        <li>
+                            <a href="/Index" class="menu-item">Dashboard</a>
+                        </li>
+
+                    </ul>
+            </li>
+            <li class=" nav-item">
+                <a href="Reservation"><i class="ft-droplet"></i><span data-i18n="" class="menu-title">Reservation</span></a>
+            </li>
+            <li class=" nav-item">
+                <a href="Payment"><i class="ft-mail"></i><span data-i18n="" class="menu-title">Payment</span></a>
+            </li>
+            <li class=" nav-item">
+                <a href="chat.html"><i class="ft-message-square"></i><span data-i18n="" class="menu-title">Slip</span></a>
+            </li>
+            <li class=" nav-item">
+                <a href="/Identity/Account/Logout"><i class="ft-file-text"></i><span data-i18n="" class="menu-title">Logout </span></a>
+            </li>
+
+        </ul>
+    </div>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
+
+    <div class="nav-container">
+        <ul id="main-menu-navigation" data-menu="menu-navigation" data-scroll-to-active="true" class="navigation navigation-main">
+
+            <li class=" nav-item">
+                <a href="/Identity/Account/Register"><i class="ft-droplet"></i><span data-i18n="" class="menu-title">Register </span></a>
+            </li>
+            <li class=" nav-item">
+                <a href="/Identity/Account/Login"><i class="ft-mail"></i><span data-i18n="" class="menu-title">Login</span></a>
+            </li>
+
+        </ul>
+    </div>
 }
-</ul>
