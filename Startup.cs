@@ -30,6 +30,7 @@ namespace Hostel
         {
 
             services.AddServerSideBlazor();
+
             //services.AddDbContext<ApplicationDbContext>(options =>
 
             //    options.UseSqlServer(
@@ -38,7 +39,8 @@ namespace Hostel
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlite("Data Source = Hostel.db");
-            });                                    
+            });
+
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();

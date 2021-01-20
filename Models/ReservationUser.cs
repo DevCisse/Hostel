@@ -12,7 +12,7 @@ namespace Hostel.Models
     {
 
         [Key]
-        [ForeignKey("AspnetUser")]
+        [ForeignKey("AspnetUsersId")]
         public string Id { get; set; }
         public int RoomNumber { get; set; }
         public bool Reservation { get; set; } = false;
