@@ -1,56 +1,30 @@
-﻿@page
-@model IndexModel
-
-@using Hostel.Components
-
-@{
-    ViewData["Title"] = "Home page";
+﻿@page "/Home"
+@inject AntDesign.NotificationService _notice
 
 
-}
+@*<Button OnClick="@OnSuccessClick">
+    success
+</Button>
 
+<Button OnClick="@OnInfoClick">
+    info
+</Button>
 
-@if (User.Identity.Name != "admin@yahoo.com")
-{
-    @if (Model.Message == "Has Expired")
-    {
+<Button OnClick="@OnWarningClick">
+    warning
+</Button>
 
-        <div class="alert bg-danger alert-dismissible mb-2 col-6" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
+<Button OnClick="@OnErrorClick">
+    error
+</Button>*@
 
-
-            Your reservation has expired!
-        </div>
-    }
-    @if (Model.Message == "Some Hours Remaining")
-    {
-
-        <div class="alert bg-info alert-dismissible mb-2 col-6" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-
-
-            Your reservation will expire in less that 24 hours
-        </div>
-    }
-
-    @if (Model.Message == "You dont have reservation")
-    {
-
-        <div class="alert bg-info alert-dismissible mb-2 col-6" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-
-
-            Your dont have a reservation
-        </div>
-    }
-
-}
+<div class="alert bg-info alert-dismissible mb-2" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <strong>Heads up!</strong> This alert needs <a href="#" class="alert-link">your attention</a>, but
+    it's not super important.
+</div>
 
 
 <div class="row">
@@ -134,10 +108,40 @@
 </div>
 
 
+@code{
+    private async Task NoticeWithIcon(NotificationType type)
+    {
+        await _notice.Open(new NotificationConfig()
+        {
+            Message = "Notification Title",
+            Description = "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
+            NotificationType = type
+        });
+    }
 
-@*@(await Html.RenderComponentAsync<IndexComponent>(RenderMode.ServerPrerendered))
-    <script src="_framework/blazor.server.js"></script>*@
+    protected async override Task OnInitializedAsync()
+    {
+        await NoticeWithIcon(NotificationType.Success);
+    }
 
+    private async Task OnSuccessClick()
+    {
+        await NoticeWithIcon(NotificationType.Success);
+    }
 
+    private async Task OnInfoClick()
+    {
+        await NoticeWithIcon(NotificationType.Info);
+    }
 
+    private async Task OnWarningClick()
+    {
+        await NoticeWithIcon(NotificationType.Warning);
+    }
 
+    private async Task OnErrorClick()
+    {
+        await NoticeWithIcon(NotificationType.Error);
+    }
+
+}

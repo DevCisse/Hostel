@@ -2,20 +2,66 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Hostel.Models;
+using Hostel.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 
 namespace Hostel.Pages
 {
+
+    [Authorize]
     public class PaymentModel : PageModel
     {
-        public string Email { get; set; } = "hassancisse2000@gmail.com";
-        public string FirstName { get; set; } = "Salihu";
-        public string LastName { get; set; } = "Hassan";
-        public void OnGet()
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly HostelAllocationServices services;
+
+        public PaymentModel(UserManager<ApplicationUser> userManager,Hostel.Services.HostelAllocationServices services)
         {
+            this.userManager = userManager;
+            this.services = services;
+        }
+
+       
+        public string Email { get; set; } = "";
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
+
+
+        public string UserId { get; set; }
+        //public void OnGet()
+        //{
+
+
+        //}
+
+        public async Task<IActionResult> OnGetAsync()
+        {
+
+
+           
+          
+
+        // For ASP.NET Core <= 3.1
+            ApplicationUser applicationUser = await userManager.GetUserAsync(User);
+            Email = applicationUser.Email;
+
+            //Email = "hassancisse2000@gmail.com";
+            Email = applicationUser.Email;
+            FirstName = applicationUser.FirstName;
+            LastName = applicationUser.LastName;
+
+            UserId = applicationUser.Id;
+
+             return Page();
+
+        
         }
 
 
@@ -33,8 +79,10 @@ namespace Hostel.Pages
 
 
 
-        public ActionResult OnPostSend()
+        public async Task<ActionResult> OnPostSendAsync()
         {
+
+            ApplicationUser applicationUser = await userManager.GetUserAsync(User);
             string sPostValue1 = "";
             string sPostValue2 = "";
             string sPostValue3 = "";
@@ -57,13 +105,15 @@ namespace Hostel.Pages
 
                             reference = obj.Item1;
 
-
-
-
                         }
                     }
                 }
             }
+
+
+            services.UpdatePaymentDeatail(applicationUser.Id, reference);
+
+
             List<string> lstString = new List<string>
             {
                 sPostValue1,
@@ -71,6 +121,9 @@ namespace Hostel.Pages
                 sPostValue3
             };
             return new JsonResult(lstString);
+
+
+            
 
         }
     }

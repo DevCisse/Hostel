@@ -1,0 +1,193 @@
+﻿@page "/reservation"
+@inherits ReservationBase
+@inject HostelAllocationServices Services
+@inject MessageService _message
+@inject ConfirmService _confirmService
+@inject ModalService _modalService
+
+
+@attribute [Authorize]
+
+<h3>Reservation</h3>
+
+
+@*<button @onclick="Sweet" class="btn btn-primary">Sweet Alert</button>*@
+
+
+@if (UserHasReservation)
+{
+    <p class="h2 text-center text-success">User has reservation code already @ReservationCode</p>
+
+    @*<Alert Type="@AlertType.Success"
+        Message="Success "
+        Description="Detailed description and advice about successful copywriting."
+        ShowIcon />*@
+
+
+    <Result Status="success"
+            Title="Your room reservation was successful !"
+            SubTitle="@Message">
+        <Extra>
+            <Button Type="primary" @onclick="NavigateToPayment">Proceed to payment</Button>
+
+        </Extra>
+
+    </Result>
+}
+
+else
+{
+
+
+    <div class="row">
+
+        <div class="col-6">
+            <select @onchange="ChangeEvent" class="form-control" required>
+                <option>Select Hostel</option>
+                @if (Blocks != null)
+                {
+                    @if (Blocks.Count != 0)
+                    {
+                        @foreach (var item in Blocks)
+                        {
+                            <option value="@item.Id"> @item.BlockName</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+
+
+        @if (Rooms != null)
+        {
+            @if (Rooms.Count != 0)
+            {
+                <Divider Orientation="right" Style="font-weight:bold">Rooms</Divider>
+
+
+                @foreach (var item in Rooms)
+                {
+
+                    <div class="card bg-light mb-3 mr-3" style="max-width: 18rem;">
+                        <div class="card-header"> <b> @item.Block.BlockName </b> </div>
+                        <div class="card-body">
+                            <h5 class="card-title"> @item.RoomName</h5>
+
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+                            @*<Popconfirm Title="@("Are you want to reserve this room?")"
+                                            OnConfirm="(() => ConfirmAsync(item.Id))"
+                                            OnCancel="Cancel"
+                                            OkText="Yes"
+                                            CancelText="No" Class="btn btn-outline-primary">
+                                    <a>Reserve Room</a>
+                                </Popconfirm>*@
+
+                            @*<button href="#" @onclick="@(async ()=> { await ShowConfirm(ConfirmButtons.YesNo); })" class="btn btn-outline-primary"> Reserve Room</button>*@
+
+                            <button href="#" @onclick="async () => await Sweet(item.Id)" class="btn btn-outline-primary"> Reserve Room</button>
+
+
+
+                        </div>
+                    </div>
+
+                }
+
+            }
+
+        }
+
+    </div>
+
+}
+
+
+@code {
+
+    //List<Block> Blocks;
+    //List<Room> Rooms;
+    //string ReservationCode;
+
+
+    //protected async override Task OnInitializedAsync()
+    //{
+    //    Blocks = await Services.GetBlockAsync();
+
+
+
+    //}
+
+
+
+    //public async Task ChangeEvent(ChangeEventArgs e)
+    //{
+    //    int id = Convert.ToInt32(e.Value);
+    //    Rooms = (await Services.GetHostelRooms(id)).ToList();
+    //    StateHasChanged();
+
+    //}
+
+
+    //protected async Task ShowConfirm(ConfirmButtons confirmButtons)
+    //{
+    //    var content = "Are Your Sure You want to reserve this  room ?";
+    //    var title = "Confirm Room";
+    //    var confirmResult = await _confirmService.Show(content, title, confirmButtons);
+
+    //    if (confirmResult != ConfirmResult.Yes)
+    //    {
+    //        var _ = _message.Info($"{confirmResult} button is clicked", 2);
+    //    }
+    //    else
+    //    {
+    //        ReservationCode = RandomString(10);
+
+
+    //        var authenticationState = await authenticationStateTask;
+
+    //        var user = (await authenticationStateTask).User;
+    //        var cUser = await UserManager.GetUserAsync(user);
+
+
+    //        await SecondSevices.SetReservationCode(cUser.Id, ReservationCode);
+
+
+    //        HandleSuccess();
+
+
+    //    }
+    //}
+
+    //private static Random random = new Random();
+    //public static string RandomString(int length)
+    //{
+    //    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    //    return new string(Enumerable.Repeat(chars, length)
+    //      .Select(s => s[random.Next(s.Length)]).ToArray());
+    //}
+
+
+    //private void HandleSuccess()
+    //{
+    //    _modalService.Success(new ConfirmOptions()
+    //    {
+    //        Title = "Reservation Code",
+    //        Content = $"A Reservation Code has been generated for you, The code is   {ReservationCode}"
+    //    });
+    //}
+
+
+
+
+    //int counter = 0;
+    //void Increment()
+    //{
+    //    counter++;
+    //}
+
+}

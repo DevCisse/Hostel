@@ -1,0 +1,60 @@
+﻿@page "/admin/payments"
+@attribute [Authorize]
+@inject UserManager<ApplicationUser> Usermanager
+<h3>Payment</h3>
+
+
+<RadzenGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced" AllowPaging="true" PageSize="20"
+            AllowSorting="true" Data="@students" TItem="StudentDto" ColumnWidth="200px">
+    <Columns>
+
+      
+        <RadzenGridColumn TItem="StudentDto" Property="FullName" Title="Full Name" />
+        <RadzenGridColumn TItem="StudentDto" Property="Email" Title="Email" />
+        <RadzenGridColumn TItem="StudentDto" Property="State" Title="State" />
+        <RadzenGridColumn TItem="StudentDto" Property="HasReservedRoom" Title="Reserved Room" />
+        <RadzenGridColumn TItem="StudentDto" Property="HasPaid" Title="Paid " />
+        <RadzenGridColumn TItem="StudentDto" Property="PaymentCode" Title="Payment Refrence" />
+        <RadzenGridColumn TItem="StudentDto" Property="AmountPayed" Title="Amount Paid" />
+        <RadzenGridColumn TItem="StudentDto" Property="PaymentTime" Title="Date" />
+        <RadzenGridColumn TItem="StudentDto" Property="RoomNumber" Title="Room Number" />
+
+    </Columns>
+</RadzenGrid>
+
+@code {
+    List<StudentDto> students = new List<StudentDto>();
+
+
+    protected override void OnInitialized()
+    {
+
+        var users = Usermanager.Users.Where(x => x.PaymentCode != null && x.UserName != "admin@yahoo.com");
+
+        foreach (var item in users)
+        {
+
+            StudentDto studentDto = new StudentDto
+            {
+                FullName = $"{item.FirstName} {item.LastName}",
+                Email = item.Email,
+                HasReservedRoom = item.Reservation.ToString(),
+                Id = item.Id,
+                State = item.State,
+                PaymentCode = item.PaymentCode,
+                AmountPayed = item.AmountPayed,
+                PaymentTime = item.PaymentTime.ToString(),
+                HasPaid = "True",
+                RoomNumber = item.RoomNumber
+
+            };
+
+            students.Add(studentDto);
+        }
+
+
+
+    }
+
+
+}

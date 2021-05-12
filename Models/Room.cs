@@ -13,6 +13,9 @@ namespace Hostel.Models
 
         public bool Occupied { get; set; } = false;
         public bool Reserved { get; set; } = false;
+
+
+
         public int BlockId { get; set; }
         public Block Block { get; set; }
     }

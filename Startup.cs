@@ -1,3 +1,4 @@
+using CurrieTechnologies.Razor.SweetAlert2;
 using Hostel.Data;
 using Hostel.Models;
 using Microsoft.AspNetCore.Builder;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace Hostel
 {
@@ -29,22 +32,52 @@ namespace Hostel
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddAntDesign();
+            services.AddScoped<Hostel.Services.HostelAllocationServices>();
+
             services.AddServerSideBlazor();
+
+            services.AddSweetAlert2();
 
             //services.AddDbContext<ApplicationDbContext>(options =>
 
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
 
+
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+  .AddRoles<IdentityRole>() //Line that can help you
+  .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite("Data Source = Hostel.db");
+                options.UseSqlite("Data Source = Hostel.db").EnableSensitiveDataLogging();
+                // options.LogTo(Console.WriteLine(""),Microsoft.Extensions.Logging.LogLevel.Information)
             });
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //services.AddDefaultIdentity<ApplicationUser>(options =>
+            //{
+            //    options.SignIn.RequireConfirmedAccount = true;
+
+            //}).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+
+            RazorPagesOptions options = new RazorPagesOptions
+            {
+                RootDirectory = "/Dashboard"
+            };
+            //services.AddRazorPages(options =>{ options.RootDirectory = "/Dashboard"; });
             services.AddRazorPages();
+
+
+
+            //   services.AddDefaultIdentity<ApplicationUser().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
 
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");

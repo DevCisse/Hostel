@@ -31,34 +31,86 @@
 @if (SignInManager.IsSignedIn(User))
 {
 
-    <div class="nav-container">
-        <ul id="main-menu-navigation" data-menu="menu-navigation" data-scroll-to-active="true" class="navigation navigation-main">
-            <li class="has-sub nav-item">
-                <a href="#">
-                    <i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span>
+    if (User.IsInRole("Admin"))
+    {
+        <div class="nav-container">
+            <ul id="main-menu-navigation" data-menu="menu-navigation" data-scroll-to-active="true" class="navigation navigation-main">
+                <li class="has-sub nav-item">
+                    <a href="/Index">
+                        <i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span>
 
-                    <ul class="menu-content">
-                        <li>
-                            <a href="/Index" class="menu-item">Dashboard</a>
-                        </li>
+                        <ul class="menu-content">
+                            <li>
+                                <a href="/Index" class="menu-item">Dashboard</a>
+                            </li>
 
-                    </ul>
-            </li>
-            <li class=" nav-item">
-                <a href="Reservation"><i class="ft-droplet"></i><span data-i18n="" class="menu-title">Reservation</span></a>
-            </li>
-            <li class=" nav-item">
-                <a href="Payment"><i class="ft-mail"></i><span data-i18n="" class="menu-title">Payment</span></a>
-            </li>
-            <li class=" nav-item">
-                <a href="chat.html"><i class="ft-message-square"></i><span data-i18n="" class="menu-title">Slip</span></a>
-            </li>
-            <li class=" nav-item">
-                <a href="/Identity/Account/Logout"><i class="ft-file-text"></i><span data-i18n="" class="menu-title">Logout </span></a>
-            </li>
+                        </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="admin/Students"><i class="ft-droplet"></i><span data-i18n="" class="menu-title">Students</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="admin/rooms"><i class="ft-briefcase"></i><span data-i18n="" class="menu-title">Rooms</span></a>
+                </li>
 
-        </ul>
-    </div>
+                <li class=" nav-item">
+                    <a href="admin/payments"><i class="ft-briefcase"></i><span data-i18n="" class="menu-title">Payment</span></a>
+                </li>
+
+                @*<li class=" nav-item">
+            <a href="/Identity/Account/Logout"><i class="ft-file-text"></i><span data-i18n="" class="menu-title">Logout </span></a>
+        </li>*@
+
+                <li class="nav-item">
+                    <form class="form-inline" id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                        <button type="submit" class="nav-link btn btn-link text-white"> <i class="ft-log-out"></i> Logout</button>
+                    </form>
+                </li>
+
+            </ul>
+        </div>
+
+    }
+
+    else
+    {
+
+        <div class="nav-container">
+            <ul id="main-menu-navigation" data-menu="menu-navigation" data-scroll-to-active="true" class="navigation navigation-main">
+                <li class="has-sub nav-item">
+                    <a asp-page="/Index">
+                        <i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span>
+
+                        <ul class="menu-content">
+                            <li>
+                                <a asp-page="/Index" class="menu-item">Dashboard</a>
+                            </li>
+
+                        </ul>
+                        </a>
+                </li>
+                <li class=" nav-item">
+                    <a href="Reservation"><i class="ft-droplet"></i><span data-i18n="" class="menu-title">Reservation</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="Payment"><i class="ft-briefcase"></i><span data-i18n="" class="menu-title">Payment</span></a>
+                </li>
+                @*<li class=" nav-item">
+                    <a href="chat.html"><i class="ft-message-square"></i><span data-i18n="" class="menu-title">Slip</span></a>
+                </li>*@
+                @*<li class=" nav-item">
+                        <a href="/Identity/Account/Logout"><i class="ft-file-text"></i><span data-i18n="" class="menu-title">Logout </span></a>
+                    </li>*@
+
+                <li class="nav-item">
+                    <form class="form-inline" id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                        <button type="submit" class="nav-link btn btn-link text-white"> <i class="ft-log-out"></i> Logout</button>
+                    </form>
+                </li>
+
+            </ul>
+        </div>
+    }
 }
 else
 {
@@ -67,10 +119,10 @@ else
         <ul id="main-menu-navigation" data-menu="menu-navigation" data-scroll-to-active="true" class="navigation navigation-main">
 
             <li class=" nav-item">
-                <a href="/Identity/Account/Register"><i class="ft-droplet"></i><span data-i18n="" class="menu-title">Register </span></a>
+                <a href="/Identity/Account/Register"><i class="ft-lock"></i><span data-i18n="" class="menu-title">Register </span></a>
             </li>
             <li class=" nav-item">
-                <a href="/Identity/Account/Login"><i class="ft-mail"></i><span data-i18n="" class="menu-title">Login</span></a>
+                <a href="/Identity/Account/Login"><i class="ft-log-in"></i><span data-i18n="" class="menu-title">Login</span></a>
             </li>
 
         </ul>

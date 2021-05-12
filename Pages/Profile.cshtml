@@ -1,0 +1,62 @@
+﻿@page
+@model Hostel.Pages.ProfileModel
+@{
+}
+
+
+
+<div class="row justify-content-md-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title" id="basic-layout-card-center">Payment Details</h4>
+                <p>
+                    Please Submit the  the form to process your payment
+                </p>
+            </div>
+            <div class="card-content">
+                <div class="px-3">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <form class="form" method="post">
+                        <div class="form-body">
+
+                            @*<div class="form-group">
+                                <label for="eventRegInput1">Email</label>
+                               
+                                <label >@Model.Input.Email</label>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>*@
+
+                         
+
+                            <div class="form-group">
+                                <label for="eventRegInput3">First Name</label>
+                                <input class="form-control" asp-for="Input.FirstName" />
+                                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventRegInput4">Lastname</label>
+                                <input class="form-control" asp-for="Input.LastName" />
+                                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="form-actions center">
+                            <button type="button" class="btn btn-raised btn-warning mr-1">
+                                <i class="ft-x"></i> Cancel
+                            </button>
+                            <button  type="submit" class="btn btn-raised btn-primary">
+                                <i class="fa fa-check-square-o"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

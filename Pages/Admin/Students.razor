@@ -1,0 +1,64 @@
+﻿@page "/admin/Students"
+@inject HostelAllocationServices Hostel
+@inject UserManager<ApplicationUser> UserManager
+@attribute [Authorize(Roles ="Student")]
+<h3>List of Students</h3>
+
+
+<RadzenGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced" AllowPaging="true" PageSize="4"
+            AllowSorting="true" Data="@students" TItem="StudentDto" ColumnWidth="200px">
+    <Columns>
+
+        <RadzenGridColumn TItem="StudentDto" Property="Id" Title="Full Name">
+            <Template Context="data">
+                @*@String.Format("{0:d}", data.BirthDate)*@
+                <a href="admin/details/@data.Id">@data.FullName</a>
+            </Template>
+        </RadzenGridColumn>
+
+        <RadzenGridColumn TItem="StudentDto" Property="Email" Title="Email" />
+        <RadzenGridColumn TItem="StudentDto" Property="State" Title="State" />
+        <RadzenGridColumn TItem="StudentDto" Property="HasReservedRoom" Title="Reserved Room" />
+
+    </Columns>
+</RadzenGrid>
+
+@code {
+
+
+    IEnumerable<ApplicationUser> employees;
+    List<StudentDto> students = new List<StudentDto>();
+
+    protected override void OnInitialized()
+    {
+        //employees = UserManager.Users.Where(x => x.Email != "admin@yahoo.com");
+        //employees = await UserManager.GetUsersInRoleAsync("Student");
+
+        employees = UserManager.Users;
+
+        var users = UserManager.Users.Where(x => x.Email != "admin@yahoo.com");
+
+        foreach (var item in employees)
+        {
+            StudentDto studentDto = new StudentDto
+            {
+                FullName = $"{item.FirstName} {item.LastName}",
+                Email = item.Email,
+                HasReservedRoom = item.Reservation.ToString(),
+                Id = item.Id,
+                State = item.State
+
+
+            };
+
+            students.Add(studentDto);
+        }
+
+        ///  ApplicationUser user = new ApplicationUser {Reser }
+    }
+
+
+
+
+
+}

@@ -1,0 +1,100 @@
+﻿@page "/admin/rooms"
+
+@inject HostelAllocationServices Hostel
+@inject UserManager<ApplicationUser> UserManager
+@attribute [Authorize(Roles = "Student")]
+@using Hostel.TestComponents
+
+@*<MyButton ButtonText="Click Me" Type="MyButton.ButtonType.Error">   <div class="input-group-text" id="btnGroupAddon">@@</div> </MyButton>*@
+
+    <h3>Blocks</h3>
+
+
+    <table class="table table-bordered table-hover" style="max-width:700px;" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Block Name</th>
+                <th>Block Gender</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (blocks != null)
+            {
+
+                @foreach (var item in blocks)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.BlockName</td>
+                        <td>@(item.BlockGender == Gender.Male ? "Male" : "Female")</td>
+                    </tr>
+
+                }
+            }
+
+            else
+            {
+                <em>loading...</em>
+            }
+        </tbody>
+    </table>
+    <h3>List of Rooms</h3>
+
+
+    <RadzenGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced" AllowPaging="true" PageSize="50"
+                AllowSorting="true" Data="@blockRooms" TItem="BlockRooms" ColumnWidth="200px">
+        <Columns>
+
+
+
+
+            <RadzenGridColumn TItem="BlockRooms" Property="Id" Title="Room Number" />
+            <RadzenGridColumn TItem="BlockRooms" Property="RoomName" Title="Room Name" />
+
+
+
+            <RadzenGridColumn TItem="BlockRooms" Property="Occupied" Title="Occupied" />
+            <RadzenGridColumn TItem="BlockRooms" Property="Reserved" Title="Reserved" />
+            <RadzenGridColumn TItem="BlockRooms" Property="BlockName" Title="Block Name" />
+            <RadzenGridColumn TItem="BlockRooms" Property="Gender" Title="Block Gender" />
+
+
+            @*<RadzenGridColumn TItem="ApplicationUser" Property="Region" Title="Region" />
+        <RadzenGridColumn TItem="ApplicationUser" Property="PostalCode" Title="Postal Code" />
+        <RadzenGridColumn TItem="ApplicationUser" Property="Country" Title="Country" />
+        <RadzenGridColumn TItem="ApplicationUser" Property="HomePhone" Title="Home Phone" />
+        <RadzenGridColumn TItem="ApplicationUser" Property="Extension" Title="Extension" />
+        <RadzenGridColumn TItem="ApplicationUser" Property="Notes" Title="Notes" />*@
+        </Columns>
+    </RadzenGrid>
+
+    @code {
+
+
+        IEnumerable<BlockRooms> blockRooms;
+
+
+        IEnumerable<Block> blocks;
+        protected override async Task OnInitializedAsync()
+        {
+            //employees = UserManager.Users.Where(x => x.Email != "admin@yahoo.com");
+            //employees = await UserManager.GetUsersInRoleAsync("Student");
+
+            blocks = await Hostel.GetBlockAsync();
+
+            blockRooms = await Hostel.GetBlockRoomsAsync();
+
+            ///  ApplicationUser user = new ApplicationUser {Reser }
+        }
+
+
+
+
+    }
+
+    <h3>Rooms</h3>
+
+    @code {
+
+    }

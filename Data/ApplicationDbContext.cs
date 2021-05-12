@@ -3,24 +3,39 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Hostel.Data
 {
+
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            Database.SetCommandTimeout(9000);
         }
+
+      
 
 
 
         public DbSet<Block> Blocks { get; set; }
         public DbSet<Room> Rooms { get; set; }
 
+        public DbSet<TestStudent> TestStudents { get; set; }
 
 
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.LogTo(message => Debug.WriteLine(message),Microsoft.Extensions.Logging.LogLevel.Information);
+           // optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information,);
+          //  base.OnConfiguring(optionsBuilder);
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -65,7 +80,7 @@ namespace Hostel.Data
 
             builder.Entity<Room>().HasData(
 
-                    new Room { Id = 1, RoomName = "Room 1", BlockId = 1 },
+                       new Room { Id = 1, RoomName = "Room 1", BlockId = 1 },
                        new Room { Id = 2, RoomName = "Room 2", BlockId = 1 },
                        new Room { Id = 3, RoomName = "Room 3", BlockId = 1 },
                        new Room { Id = 4, RoomName = "Room 4", BlockId = 1 },
@@ -103,7 +118,7 @@ namespace Hostel.Data
                        new Room { Id = 31, RoomName = "Room 7", BlockId = 4 },
                        new Room { Id = 32, RoomName = "Room 8", BlockId = 4 }
 
-               );
+           );
         }
     }
 }

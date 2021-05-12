@@ -1,0 +1,48 @@
+﻿
+
+<button  placeholder="@Placeholder" text="@ButtonText" class="@Type @classtype"> @ButtonText @ChildContent</button>
+
+@code {
+    [Parameter]
+    public string Placeholder { get; set; }
+
+    [Parameter] public string ButtonText { get; set; } = "Button";
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+
+    private string classtype;
+
+    private ButtonType type;
+
+
+    [Parameter]public ButtonType Type { get => type;
+
+        set
+        {
+            type = value;
+            if(type == ButtonType.Error)
+            {
+                classtype = "btn btn-danger";
+
+            }
+            else
+            {
+                classtype = "btn btn-success";
+            }
+        }
+
+    }
+
+
+
+
+    public enum ButtonType
+    {
+        Success,
+        Error
+
+    }
+
+}

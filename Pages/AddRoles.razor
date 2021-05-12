@@ -1,0 +1,52 @@
+﻿@page "/AddRoles"
+@inject RoleManager<IdentityRole> RoleManger
+<h3>AddRoles</h3>
+<div class="col-4">
+
+    <h2 class="text-success ">@SuccessMessage</h2>
+    <h2 class="text-danger">@ErrorMessage</h2>
+
+
+    <EditForm Model="adding">
+        <InputText @bind-Value="adding.RoleName" class="form-control"></InputText>
+        <br />
+        <div>
+            <button class="btn  btn-success" @onclick="Adding"> Add Roles</button>
+        </div>
+    </EditForm>
+
+</div>
+
+@code {
+
+    private RoleAdding adding = new RoleAdding();
+
+
+    public string SuccessMessage { get; set; } = string.Empty;
+    public string ErrorMessage { get; set; } = string.Empty;
+
+
+
+    async Task Adding()
+    {
+        IdentityRole role = new IdentityRole
+        {
+            Name = adding.RoleName
+        };
+        var result = await RoleManger.CreateAsync(role);
+
+        if(result.Succeeded)
+        {
+            SuccessMessage = "Role added";
+        }
+        else
+        {
+            ErrorMessage = "Role not added, something went wrong";
+            
+
+        }
+    }
+
+
+
+}

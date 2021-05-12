@@ -12,9 +12,11 @@ namespace Hostel.Models
 
         [Required]
         [MaxLength(50)]
+        [Display(Name = "First Name is required")]
         public string FirstName { get; set; }
         [Required]
         [MaxLength(50)]
+        [Display(Name = "Last Name is required")]
         public string LastName { get; set; }
         [Required]
         public Gender Gender { get; set; }
@@ -43,6 +45,10 @@ namespace Hostel.Models
         [MaxLength(50)]
 
         public string Lga { get; set; }
+
+        public DateTime PaymentTime { get; set; }
+        public decimal AmountPayed { get; set; }
+        public string PaymentCode { get; set; }
 
     }
 }

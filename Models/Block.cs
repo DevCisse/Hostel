@@ -14,6 +14,6 @@ namespace Hostel.Models
         public string BlockName { get; set; }
         public Gender BlockGender { get; set; }
 
-        public List<Room> Rooms { get; set; }
+        public List<Room> Rooms { get; set; } = new List<Room>();
     }
 }
