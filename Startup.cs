@@ -51,7 +51,7 @@ namespace Hostel
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite("Data Source = Hostel.db").EnableSensitiveDataLogging();
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging();
                 // options.LogTo(Console.WriteLine(""),Microsoft.Extensions.Logging.LogLevel.Information)
             });
 
